@@ -3,14 +3,18 @@ import cors from 'cors'
 import 'dotenv/config'
 import mongoose from 'mongoose'
 
+import myUserRoute from './routes/MyUserRoute'
+
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 
-app.get('/test', async (req: Request, res: Response) => {
-	res.json({ message: 'Healthy App' })
+app.get('/health', async (req: Request, res: Response) => {
+	res.json({ message: ' App is healthy' })
 })
+
+app.use('/api/my/user', myUserRoute)
 
 // Connect to DB and start server
 mongoose
