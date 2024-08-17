@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 
+import MobileNav from './MobileNav'
+
 export default function Header() {
 	return (
 		<div className='border-b-2 border-b-orange-500 py-6'>
@@ -10,6 +12,9 @@ export default function Header() {
 				>
 					MernEats.com
 				</Link>
+				<div className='md:hidden'>
+					<MobileNav />
+				</div>
 			</div>
 		</div>
 	)
