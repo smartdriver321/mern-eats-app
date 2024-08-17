@@ -28,9 +28,9 @@ const formSchema = z.object({
 export type UserFormData = z.infer<typeof formSchema>
 
 type Props = {
-	currentUser: User
 	onSave: (userProfileData: UserFormData) => void
 	isLoading: boolean
+	currentUser: User
 	title?: string
 	buttonText?: string
 }
