@@ -6,6 +6,7 @@ import { v2 as cloudinary } from 'cloudinary'
 
 import myUserRoute from './routes/MyUserRoute'
 import myRestaurantRoute from './routes/MyRestaurantRoute'
+import RestaurantRoute from './routes/RestaurantRoute'
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.get('/health', async (req: Request, res: Response) => {
 
 app.use('/api/my/user', myUserRoute)
 app.use('/api/my/restaurant', myRestaurantRoute)
+app.use('/api/restaurant', RestaurantRoute)
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
