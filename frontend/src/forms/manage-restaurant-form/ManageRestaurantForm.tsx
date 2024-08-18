@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import DetailsSection from './DetailsSection'
 import LoadingButton from '@/components/LoadingButton'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
@@ -67,7 +68,7 @@ export default function ManageRestaurantForm({ onSave, isLoading }: Props) {
 				className='space-y-8 bg-gray-50 p-10 rounded-lg'
 				onSubmit={form.handleSubmit(onSubmit)}
 			>
-				DetailsSection
+				<DetailsSection />
 				<Separator />
 				CuisinesSection
 				<Separator />
