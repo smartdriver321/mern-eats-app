@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import DetailsSection from './DetailsSection'
 import CuisinesSection from './CuisinesSection'
 import MenuSection from './MenuSection'
+import ImageSection from './ImageSection'
 import LoadingButton from '@/components/LoadingButton'
 import { Form } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
@@ -76,7 +77,7 @@ export default function ManageRestaurantForm({ onSave, isLoading }: Props) {
 				<Separator />
 				<MenuSection />
 				<Separator />
-				ImageSection
+				<ImageSection />
 				{isLoading ? <LoadingButton /> : <Button type='submit'>Submit</Button>}
 			</form>
 		</Form>
