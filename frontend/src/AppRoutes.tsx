@@ -4,6 +4,7 @@ import Layout from './layouts/layout'
 import HomePage from './pages/HomePage'
 import AuthCallbackPage from './pages/AuthCallbackPage'
 import SearchPage from './pages/SearchPage'
+import DetailsPage from './pages/DetailsPage'
 import ProtectedRoute from './auth/ProtectedRoute'
 import UserProfilePage from './pages/UserProfilePage'
 import ManageRestaurantPage from './pages/ManageRestaurantPage'
@@ -26,6 +27,15 @@ export default function AppRoutes() {
 				element={
 					<Layout showHero={false}>
 						<SearchPage />
+					</Layout>
+				}
+			/>
+
+			<Route
+				path='/detail/:restaurantId'
+				element={
+					<Layout showHero={false}>
+						<DetailsPage />
 					</Layout>
 				}
 			/>
