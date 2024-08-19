@@ -9,9 +9,14 @@ import { CardContent, CardHeader, CardTitle } from './ui/card'
 type Props = {
 	restaurant: Restaurant
 	cartItems: CartItem[]
+	removeFromCart: (CartItem: CartItem) => void
 }
 
-export default function OrderSummary({ restaurant, cartItems }: Props) {
+export default function OrderSummary({
+	restaurant,
+	cartItems,
+	removeFromCart,
+}: Props) {
 	const getTotalCost = () => {
 		const totalInPence = cartItems.reduce(
 			(total, cartItem) => total + cartItem.price * cartItem.quantity,
@@ -43,8 +48,13 @@ export default function OrderSummary({ restaurant, cartItems }: Props) {
 						</span>
 
 						<span className='flex items-center gap-1'>
-							<Trash className='cursor-pointer' color='red' size={20} />£
-							{((item.price * item.quantity) / 100).toFixed(2)}
+							<Trash
+								className='cursor-pointer'
+								color='red'
+								size={20}
+								onClick={() => removeFromCart(item)}
+							/>
+							£{((item.price * item.quantity) / 100).toFixed(2)}
 						</span>
 					</div>
 				))}
