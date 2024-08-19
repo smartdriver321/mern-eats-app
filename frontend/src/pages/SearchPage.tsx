@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 
 import { useSearchRestaurants } from '@/api/RestaurantApi'
 import SearchResultInfo from '@/components/SearchResultInfo'
+import SearchResultCard from '@/components/SearchResultCard'
 
 export default function SearchPage() {
 	const { city } = useParams()
@@ -22,6 +23,10 @@ export default function SearchPage() {
 				<div className='flex justify-between flex-col gap-3 lg:flex-row'>
 					<SearchResultInfo total={results.pagination.total} city={city} />
 				</div>
+
+				{results.data.map((restaurant) => (
+					<SearchResultCard restaurant={restaurant} />
+				))}
 			</div>
 		</div>
 	)
