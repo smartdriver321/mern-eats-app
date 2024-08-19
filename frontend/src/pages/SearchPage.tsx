@@ -5,6 +5,7 @@ import { useSearchRestaurants } from '@/api/RestaurantApi'
 import SearchBar, { SearchForm } from '@/components/SearchBar'
 import SearchResultInfo from '@/components/SearchResultInfo'
 import SearchResultCard from '@/components/SearchResultCard'
+import PaginationSelector from '@/components/PaginationSelector'
 
 export type SearchState = {
 	searchQuery: string
@@ -40,6 +41,13 @@ export default function SearchPage() {
 		}))
 	}
 
+	const setPage = (page: number) => {
+		setSearchState((prevState) => ({
+			...prevState,
+			page,
+		}))
+	}
+
 	if (!results?.data || !city) {
 		return <span>No results found</span>
 	}
@@ -51,6 +59,7 @@ export default function SearchPage() {
 	return (
 		<div className='grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5'>
 			<div id='cuisines-list'>Insert cuisines here</div>
+
 			<div id='main-content' className='flex flex-col gap-5'>
 				<SearchBar
 					searchQuery={searchState.searchQuery}
@@ -65,6 +74,12 @@ export default function SearchPage() {
 				{results.data.map((restaurant) => (
 					<SearchResultCard restaurant={restaurant} />
 				))}
+
+				<PaginationSelector
+					page={results.pagination.page}
+					pages={results.pagination.pages}
+					onPageChange={setPage}
+				/>
 			</div>
 		</div>
 	)
