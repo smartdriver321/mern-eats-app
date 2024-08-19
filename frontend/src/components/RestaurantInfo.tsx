@@ -13,7 +13,7 @@ type Props = {
 	restaurant: Restaurant
 }
 
-const RestaurantInfo = ({ restaurant }: Props) => {
+export default function RestaurantInfo({ restaurant }: Props) {
 	return (
 		<Card className='border-sla'>
 			<CardHeader>
@@ -35,5 +35,3 @@ const RestaurantInfo = ({ restaurant }: Props) => {
 		</Card>
 	)
 }
-
-export default RestaurantInfo
