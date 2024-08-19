@@ -5,6 +5,7 @@ import { useSearchRestaurants } from '@/api/RestaurantApi'
 import CuisineFilter from '@/components/CuisineFilter'
 import SearchBar, { SearchForm } from '@/components/SearchBar'
 import SearchResultInfo from '@/components/SearchResultInfo'
+import SortOptionsDropdown from '@/components/SortOptionsDropdown'
 import SearchResultCard from '@/components/SearchResultCard'
 import PaginationSelector from '@/components/PaginationSelector'
 
@@ -59,6 +60,14 @@ export default function SearchPage() {
 		}))
 	}
 
+	const setSortOption = (sortOption: string) => {
+		setSearchState((prevState) => ({
+			...prevState,
+			sortOption,
+			page: 1,
+		}))
+	}
+
 	if (!results?.data || !city) {
 		return <span>No results found</span>
 	}
@@ -90,6 +99,11 @@ export default function SearchPage() {
 
 				<div className='flex justify-between flex-col gap-3 lg:flex-row'>
 					<SearchResultInfo total={results.pagination.total} city={city} />
+
+					<SortOptionsDropdown
+						sortOption={searchState.sortOption}
+						onChange={(value) => setSortOption(value)}
+					/>
 				</div>
 
 				{results.data.map((restaurant) => (
