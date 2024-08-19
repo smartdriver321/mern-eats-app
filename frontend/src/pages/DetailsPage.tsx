@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { MenuItem as Menu_Item } from '../types'
 import { useGetRestaurant } from '@/api/RestaurantApi'
 import RestaurantInfo from '@/components/RestaurantInfo'
 import MenuItem from '@/components/MenuItem'
@@ -21,6 +22,39 @@ export default function DetailsPage() {
 	const { restaurantId } = useParams()
 	const { restaurant, isLoading } = useGetRestaurant(restaurantId)
 
+	const addToCart = (menuItem: Menu_Item) => {
+		// Check if the item is already in the cart
+		setCartItems((prevCartItems) => {
+			const existingCartItem = prevCartItems.find(
+				(cartItem) => cartItem._id === menuItem._id
+			)
+
+			// If item is in cart, update the quantity
+			let updatedCartItems
+
+			if (existingCartItem) {
+				updatedCartItems = prevCartItems.map((cartItem) =>
+					cartItem._id === menuItem._id
+						? { ...cartItem, quantity: cartItem.quantity + 1 }
+						: cartItem
+				)
+			} else {
+				// If item is not in cart, add it as new item
+				updatedCartItems = [
+					...prevCartItems,
+					{
+						_id: menuItem._id,
+						name: menuItem.name,
+						price: menuItem.price,
+						quantity: 1,
+					},
+				]
+			}
+
+			return updatedCartItems
+		})
+	}
+
 	if (isLoading || !restaurant) {
 		return 'Loading...'
 	}
@@ -40,7 +74,10 @@ export default function DetailsPage() {
 
 					<span className='text-2xl font-bold tracking-tight'>Menu</span>
 					{restaurant.menuItems.map((menuItem) => (
-						<MenuItem menuItem={menuItem} />
+						<MenuItem
+							menuItem={menuItem}
+							addToCart={() => addToCart(menuItem)}
+						/>
 					))}
 				</div>
 
