@@ -12,9 +12,14 @@ import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 type Props = {
 	onCheckout: (userFormData: UserFormData) => void
 	disabled: boolean
+	isLoading: boolean
 }
 
-export default function CheckoutButton({ onCheckout, disabled }: Props) {
+export default function CheckoutButton({
+	onCheckout,
+	disabled,
+	isLoading,
+}: Props) {
 	const { pathname } = useLocation()
 
 	const {
@@ -41,7 +46,7 @@ export default function CheckoutButton({ onCheckout, disabled }: Props) {
 		)
 	}
 
-	if (isAuthLoading || !currentUser) {
+	if (isAuthLoading || !currentUser || isLoading) {
 		return <LoadingButton />
 	}
 
