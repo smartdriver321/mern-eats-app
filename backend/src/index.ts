@@ -11,12 +11,13 @@ import OrderRoute from './routes/OrderRoute'
 
 const app = express()
 
-app.use(express.json())
-app.use(cors())
-
 app.get('/health', async (req: Request, res: Response) => {
 	res.json({ message: ' App is healthy' })
 })
+
+app.use(cors())
+app.use('/api/order/checkout/webhook', express.raw({ type: '*/*' }))
+app.use(express.json())
 
 app.use('/api/my/user', myUserRoute)
 app.use('/api/my/restaurant', myRestaurantRoute)
