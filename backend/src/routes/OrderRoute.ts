@@ -7,6 +7,13 @@ const router = express.Router()
 
 router.get('/order', jwtCheck, jwtParse, OrderController.getMyRestaurantOrders)
 
+router.patch(
+	'/order/:orderId/status',
+	jwtCheck,
+	jwtParse,
+	OrderController.updateOrderStatus
+)
+
 //////////////////////////
 
 router.get('/', jwtCheck, jwtParse, OrderController.getMyOrders)

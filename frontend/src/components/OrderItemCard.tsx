@@ -1,14 +1,43 @@
-import { Order } from '@/types'
+import { useState } from 'react'
+
+import { Order, OrderStatus } from '@/types'
+import { ORDER_STATUS } from '@/config/order-status-config'
 import { Separator } from './ui/separator'
 import { Badge } from './ui/badge'
 import { Label } from './ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from './ui/select'
 
 type Props = {
 	order: Order
 }
 
 export default function OrderItemCard({ order }: Props) {
+	const [status, setStatus] = useState<OrderStatus>(order.status)
+
+	const getTime = () => {
+		const orderDateTime = new Date(order.createdAt)
+		const hours = orderDateTime.getHours()
+		const minutes = orderDateTime.getMinutes()
+		const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes
+
+		return `${hours}:${paddedMinutes}`
+	}
+
+	const handleStatusChange = async (newStatus: OrderStatus) => {
+		await updateRestaurantStatus({
+			orderId: order._id as string,
+			status: newStatus,
+		})
+		setStatus(newStatus)
+	}
+
 	return (
 		<Card>
 			<CardHeader>
@@ -19,16 +48,19 @@ export default function OrderItemCard({ order }: Props) {
 							{order.deliveryDetails.name}
 						</span>
 					</div>
+
 					<div>
-						Delivery address:
+						Delivery Address:
 						<span className='ml-2 font-normal'>
 							{order.deliveryDetails.addressLine1}, {order.deliveryDetails.city}
 						</span>
 					</div>
+
 					<div>
 						Time:
-						<span className='ml-2 font-normal'>12.45</span>
+						<span className='ml-2 font-normal'>{getTime()}</span>
 					</div>
+
 					<div>
 						Total Cost:
 						<span className='ml-2 font-normal'>
@@ -49,8 +81,23 @@ export default function OrderItemCard({ order }: Props) {
 						</span>
 					))}
 				</div>
+
 				<div className='flex flex-col space-y-1.5'>
 					<Label htmlFor='status'>What is the status of this order?</Label>
+					<Select
+						value={status}
+						disabled={isLoading}
+						onValueChange={(value) => handleStatusChange(value as OrderStatus)}
+					>
+						<SelectTrigger id='status'>
+							<SelectValue placeholder='Status' />
+						</SelectTrigger>
+						<SelectContent position='popper'>
+							{ORDER_STATUS.map((status) => (
+								<SelectItem value={status.value}>{status.label}</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
 				</div>
 			</CardContent>
 		</Card>
