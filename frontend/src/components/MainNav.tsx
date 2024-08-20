@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import UsernameMenu from './UsernameMenu'
@@ -9,7 +10,12 @@ export default function MainNav() {
 	return (
 		<span className='flex space-x-2 items-center'>
 			{isAuthenticated ? (
-				<UsernameMenu />
+				<>
+					<Link to='/order-status' className='font-bold hover:text-orange-500'>
+						Order Status
+					</Link>
+					<UsernameMenu />
+				</>
 			) : (
 				<Button
 					className='font-bold hover:text-orange-500 hover:bg-white'
