@@ -5,6 +5,10 @@ import OrderController from '../controllers/OrderController'
 
 const router = express.Router()
 
+router.get('/order', jwtCheck, jwtParse, OrderController.getMyRestaurantOrders)
+
+//////////////////////////
+
 router.get('/', jwtCheck, jwtParse, OrderController.getMyOrders)
 
 router.post(

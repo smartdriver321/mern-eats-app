@@ -23,6 +23,27 @@ type CheckoutSessionRequest = {
 	restaurantId: string
 }
 
+const getMyRestaurantOrders = async (req: Request, res: Response) => {
+	try {
+		const restaurant = await Restaurant.findOne({ user: req.userId })
+
+		if (!restaurant) {
+			return res.status(404).json({ message: 'restaurant not found' })
+		}
+
+		const orders = await Order.find({ restaurant: restaurant._id })
+			.populate('restaurant')
+			.populate('user')
+
+		res.json(orders)
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ message: 'Something went wrong' })
+	}
+}
+
+///////////////////////
+
 const createLineItems = (
 	checkoutSessionRequest: CheckoutSessionRequest,
 	menuItems: MenuItemType[]
@@ -179,6 +200,7 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
 }
 
 export default {
+	getMyRestaurantOrders,
 	getMyOrders,
 	createCheckoutSession,
 	stripeWebhookHandler,
