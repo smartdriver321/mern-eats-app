@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Order, OrderStatus } from '@/types'
+import { useUpdateMyRestaurantOrder } from '@/api/OrderApi'
 import { ORDER_STATUS } from '@/config/order-status-config'
 import { Separator } from './ui/separator'
 import { Badge } from './ui/badge'
@@ -20,6 +21,12 @@ type Props = {
 
 export default function OrderItemCard({ order }: Props) {
 	const [status, setStatus] = useState<OrderStatus>(order.status)
+
+	const { updateRestaurantStatus, isLoading } = useUpdateMyRestaurantOrder()
+
+	useEffect(() => {
+		setStatus(order.status)
+	}, [order.status])
 
 	const getTime = () => {
 		const orderDateTime = new Date(order.createdAt)
