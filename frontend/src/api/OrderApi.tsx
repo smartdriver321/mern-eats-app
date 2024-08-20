@@ -21,6 +21,34 @@ type CheckoutSessionRequest = {
 	restaurantId: string
 }
 
+export const useGetMyRestaurantOrders = () => {
+	const { getAccessTokenSilently } = useAuth0()
+
+	const getMyRestaurantOrdersRequest = async (): Promise<Order[]> => {
+		const accessToken = await getAccessTokenSilently()
+
+		const response = await fetch(`${API_BASE_URL}/api/my/restaurant/order`, {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${accessToken}`,
+			},
+		})
+
+		if (!response.ok) {
+			throw new Error('Failed to fetch orders')
+		}
+
+		return response.json()
+	}
+
+	const { data: orders, isLoading } = useQuery(
+		'fetchMyRestaurantOrders',
+		getMyRestaurantOrdersRequest
+	)
+
+	return { orders, isLoading }
+}
+
 export const useGetMyOrders = () => {
 	const { getAccessTokenSilently } = useAuth0()
 
